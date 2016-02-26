@@ -1,9 +1,0 @@
-vault:
-    build: .
-    net: "host"
-    volumes:
-        - /home/vagrant:/home/developer
-        - .:/pwd
-    user: 1000:1000
-    stdin_open: true
-    tty: true
