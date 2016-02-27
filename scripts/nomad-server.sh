@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CMD="docker run \
+       --detach \
        --restart=always \
        --net "host" \
        --volume /var/run/docker.sock:/var/run/docker.sock \
