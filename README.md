@@ -28,11 +28,14 @@ of time as the various pieces are downloaded and installed.
 In order to interact with Nomad, you need to ssh into the `alpha` box via `vagrant ssh alpha`. At this point you
 will be in the `/home/vagrant` directory and need to switch to the `/vagrant` directory via `cd /vagrant`.  To 
 verify that you don't have any currently running jobs use `bin/check-job.sh`.  You should see the message 
-`No running jobs`.  Next we want to install a system service into the Nomad cluster.  Type ` bin/submit-job.sh system-test.hcl`  
+`No running jobs`.  Next we want to install a system service into the Nomad cluster.  Type `bin/submit-job.sh system-test.hcl`  
 to install some caching services into all nodes in the cluster. To see how the deployment is going,
 type `bin/submit-job.sh system-test.hcl` and should show the `system-test` job running.  To shutdown the services,
 type `bin/stop-job.sh system-test`.
 
+## Installing A Service
+Use `bin/submit-job.sh service-test.hcl` to install an Nginx instance on one of the agents in the cluster.
+ 
 # Troubleshooting
 
 ## VirtualBox Extension Pack 
