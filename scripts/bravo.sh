@@ -12,7 +12,6 @@ CMD="docker run \
                                         -region=USA \
                                         -client \
                                         -servers 10.10.10.10:4646 \
-                                        -node-id=bravo \
                                         -node-class=general-purpose"
 
 echo $CMD
