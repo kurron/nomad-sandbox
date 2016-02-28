@@ -1,3 +1,5 @@
+// An example job that installs system services on all Linux agents
+
 job "system-test" {
     all_at_once = false
     datacenters = ["vagrant"]

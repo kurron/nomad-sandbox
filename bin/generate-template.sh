@@ -11,4 +11,4 @@ CMD="docker run \
        kurron/docker-nomad:latest init"
 
 echo eval $CMD
-eval $CMD 
+eval $CMD
