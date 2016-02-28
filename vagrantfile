@@ -61,6 +61,7 @@ Vagrant.configure(2) do |config|
       charlie.vm.provider "virtualbox" do |v|
           v.customize ["modifyvm", :id, "--name", "charlie"]
       end
+      charlie.vm.provision "shell", path: "scripts/charlie.sh"
   end
   
 end
