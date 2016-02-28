@@ -17,7 +17,7 @@ job "service-test" {
         stagger = "10s"
     }
 
-    group "caching-services" {
+    group "web-services" {
 
         restart {
             attempts = 10
@@ -26,7 +26,7 @@ job "service-test" {
             mode = "delay"
         }
 
-        task "redis" {
+        task "nginx" {
 
             driver = "docker"
 
@@ -37,7 +37,6 @@ job "service-test" {
             }
 
             service {
-                name = "${TASKGROUP}-nginx"
                 tags = ["experiment", "web"]
                 port = "nginx"
                 check {

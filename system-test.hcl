@@ -37,7 +37,6 @@ job "system-test" {
             }
 
             service {
-                name = "${TASKGROUP}-redis"
                 tags = ["experiment", "caching"]
                 port = "redis"
                 check {
