@@ -33,8 +33,8 @@ job "service-discovery" {
             config {
                 image = "kurron/docker-consul:latest"
                 network_mode = "host"
-                command = "-data-dir=/var/lib/consul"
-                args = ["-dc=vagrant", "-join=10.10.10.10"]
+                command = "agent"
+                args = ["-data-dir=/var/lib/consul", "-dc=vagrant", "-join=10.10.10.10"]
             }
 
             service {
