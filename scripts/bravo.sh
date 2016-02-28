@@ -11,7 +11,7 @@ CMD="docker run \
                                         -dc=vagrant \
                                         -region=USA \
                                         -client \
-                                        -servers 10.10.10.10:4646 \
+                                        -servers 10.10.10.10 \
                                         -node-class=general-purpose"
 
 echo $CMD
