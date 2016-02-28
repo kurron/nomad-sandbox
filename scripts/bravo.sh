@@ -4,14 +4,16 @@ CMD="docker run \
        --detach \
        --restart=always \
        --net "host" \
-       --name nomad-server \
+       --name nomad-client \
        --volume /var/run/docker.sock:/var/run/docker.sock \
-       kurron/docker-nomad:latest agent -bind=10.10.10.10 \
+       kurron/docker-nomad:latest agent -bind=10.10.10.20 \
                                         -data-dir=/var/lib/nomad \
                                         -dc=vagrant \
                                         -region=USA \
-                                        -server \
-                                        -bootstrap-expect=1"
+                                        -client \
+                                        -servers 10.10.10.10:4646 \
+                                        -node-id bravo \
+                                        -node-class=general-purpose"
 
 echo $CMD
 eval $CMD $*
