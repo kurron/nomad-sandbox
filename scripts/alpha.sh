@@ -7,7 +7,6 @@ CONSUL="docker run \
        --name consul-server \
        kurron/docker-consul:latest agent -advertise=10.10.10.10 \
                                          -bind=10.10.10.10 \
-                                         -client=10.10.10.10 \
                                          -data-dir=/var/lib/consul \
                                          -dc=vagrant \
                                          -server \
