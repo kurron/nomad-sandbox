@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CMD="docker run \
+NOMAD="docker run \
        --detach \
        --restart=always \
        --net "host" \
@@ -13,5 +13,19 @@ CMD="docker run \
                                         -server \
                                         -bootstrap-expect=1"
 
-echo $CMD
-eval $CMD $*
+echo $NOMAD
+eval $NOMAD
+
+CONSUL="docker run \
+       --detach \
+       --restart=always \
+       --net "host" \
+       --name consul-server \
+       kurron/docker-consul:latest agent -bind=10.10.10.10 \
+                                         -data-dir=/var/lib/consul \
+                                         -dc=vagrant \
+                                         -server \
+                                         -bootstrap-expect=1"
+
+echo $CONSUL
+eval $CONSUL
