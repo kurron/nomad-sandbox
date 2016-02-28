@@ -22,6 +22,7 @@ CONSUL="docker run \
        --net "host" \
        --name consul-server \
        kurron/docker-consul:latest agent -bind=10.10.10.10 \
+                                          -client=10.10.10.10 \
                                          -data-dir=/var/lib/consul \
                                          -dc=vagrant \
                                          -server \
