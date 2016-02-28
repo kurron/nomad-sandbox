@@ -1,5 +1,21 @@
 #!/bin/bash
 
+CONSUL="docker run \
+       --detach \
+       --restart=always \
+       --net "host" \
+       --name consul-server \
+       kurron/docker-consul:latest agent -advertise=10.10.10.10 \
+                                         -bind=10.10.10.10 \
+                                         -client=10.10.10.10 \
+                                         -data-dir=/var/lib/consul \
+                                         -dc=vagrant \
+                                         -server \
+                                         -bootstrap-expect=1"
+
+echo $CONSUL
+eval $CONSUL
+
 NOMAD="docker run \
        --detach \
        --restart=always \
@@ -16,17 +32,3 @@ NOMAD="docker run \
 echo $NOMAD
 eval $NOMAD
 
-CONSUL="docker run \
-       --detach \
-       --restart=always \
-       --net "host" \
-       --name consul-server \
-       kurron/docker-consul:latest agent -bind=10.10.10.10 \
-                                         -client=10.10.10.10 \
-                                         -data-dir=/var/lib/consul \
-                                         -dc=vagrant \
-                                         -server \
-                                         -bootstrap-expect=1"
-
-echo $CONSUL
-eval $CONSUL

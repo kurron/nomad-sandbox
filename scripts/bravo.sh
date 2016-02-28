@@ -1,6 +1,21 @@
 #!/bin/bash
 
-CMD="docker run \
+CONSUL="docker run \
+       --detach \
+       --restart=always \
+       --net "host" \
+       --name consul-client \
+       kurron/docker-consul:latest agent -advertise=10.10.10.20 \
+                                         -bind=10.10.10.20 \
+                                         -client=10.10.10.20 \
+                                         -data-dir=/var/lib/consul \
+                                         -dc=vagrant \
+                                         -join=10.10.10.10"
+
+echo $CONSUL
+eval $CONSUL
+
+NOMAD="docker run \
        --detach \
        --restart=always \
        --net "host" \
@@ -14,5 +29,6 @@ CMD="docker run \
                                         -servers 10.10.10.10 \
                                         -node-class=general-purpose"
 
-echo $CMD
-eval $CMD $*
+echo $NOMAD
+eval $NOMAD
+
