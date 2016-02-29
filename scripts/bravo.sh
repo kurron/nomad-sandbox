@@ -40,7 +40,7 @@ RESOLVABLE="docker run \
        --name resolvable \
        --volume /var/run/docker.sock:/tmp/docker.sock \
        --volume /etc/resolv.conf:/tmp/resolv.conf \
-       gliderlabs/resolvable:latest"
+       gliderlabs/resolvable:master"
 
 echo $RESOLVABLE
 eval $RESOLVABLE

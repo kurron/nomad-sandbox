@@ -52,7 +52,7 @@ CONNECTABLE="docker run \
        --net "host" \
        --name connectable \
        --volume /var/run/docker.sock:/var/run/docker.sock \
-       gliderlabs/connectable:latest"
+       gliderlabs/connectable:master"
 
 echo $CONNECTABLE
 eval $CONNECTABLE
