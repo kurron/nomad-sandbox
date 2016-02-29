@@ -1,4 +1,4 @@
-// Installs Consul clients on all Linux agents
+// Install a service that uses Connectable for service discovery
 
 job "service-discovery" {
     all_at_once = false
@@ -26,19 +26,19 @@ job "service-discovery" {
             mode = "delay"
         }
 
-        task "consul-agent" {
+        task "nginx" {
 
             driver = "docker"
 
             config {
-                image = "kurron/docker-consul:latest"
+                image = "nginx:latest"
                 network_mode = "host"
-                command = "agent"
-                args = ["-data-dir=/var/lib/consul", "-dc=vagrant", "-join=10.10.10.10"]
+                labels {
+                    connect.6379 = "system-test-caching-services-redis.service.consul"
+                }
             }
 
             service {
-                name = "${TASKGROUP}-consul"
                 tags = ["experiment", "service-discovery"]
                 port = "http"
                 check {
@@ -55,14 +55,8 @@ job "service-discovery" {
                 memory = 512
                 network {
                     mbits = 100
-                    port "rpc" {
-                        static = 8400
-                    }
                     port "http" {
-                        static = 8500
-                    }
-                    port "dns" {
-                        static = 8600
+                        static = 80
                     }
                 }
             }
