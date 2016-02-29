@@ -18,8 +18,8 @@ the network.
 
 ## Machine Topology
 * **alpha** - Consul server, Nomad server, Docker Engine
-* **bravo** - Consul client, Nomad client, Docker Engine
-* **charlie** - Consul client, Nomad client, Docker Engine
+* **bravo** - Consul client, Nomad client, Connectable, Docker Engine
+* **charlie** - Consul client, Nomad client, Connectable, Docker Engine
  
 ## Launching The Sandbox
 
@@ -95,9 +95,29 @@ curl http://localhost:8500/v1/catalog/service/system-test-caching-services-redis
 ]
 ```
 
-# Troubleshooting
+## Service Discovery
+Since Nomad can move containers around as jobs are scheduled, you need to use a service discovery mechanism to 
+locate services that your container depends on. Given the proper configuration, Nomad will register workloads 
+with Consul.  It is up to your application to pull the service location out of Consul.  To make this process 
+almost painless, we are using [Connectable](https://github.com/gliderlabs/connectable) in conjunction with 
+[Resolvable](https://github.com/gliderlabs/resolvable).  The way it works is that you specify a specially 
+formatted Docker label in your task definition that tells Connectable how to map the service definition in 
+Consul to how you want it mapped inside your container.  As container come and go, Resolvable keeps track of 
+the locations and becomes a local DNS provider. 
 
-## VirtualBox Extension Pack 
+
+```
+config {
+    image = "nginx:latest"
+    network_mode = "host"
+    labels {
+        // this container can access a Redis instance via localhost:6379
+        connect.6379 = "system-test-caching-services-redis.service.consul"
+    }
+}
+```
+
+# Troubleshooting
 
 # License and Credits
 This project is licensed under the [Apache License Version 2.0, January 2004](http://www.apache.org/licenses/).
