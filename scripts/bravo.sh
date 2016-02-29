@@ -48,8 +48,8 @@ RESOLVABLE="docker run \
        --volume /etc/resolv.conf:/tmp/resolv.conf \
        gliderlabs/resolvable:master"
 
-echo $RESOLVABLE
-eval $RESOLVABLE
+#echo $RESOLVABLE
+#eval $RESOLVABLE
 
 # Nomad does currently support volumes so we have to set up the container here
 CONNECTABLE="docker run \
@@ -60,6 +60,6 @@ CONNECTABLE="docker run \
        --volume /var/run/docker.sock:/var/run/docker.sock \
        gliderlabs/connectable:master"
 
-echo $CONNECTABLE
-eval $CONNECTABLE
+#echo $CONNECTABLE
+#eval $CONNECTABLE
 
