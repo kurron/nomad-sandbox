@@ -33,6 +33,19 @@ echo $NOMAD
 eval $NOMAD
 
 # Nomad does currently support volumes so we have to set up the container here
+RESOLVABLE="docker run \
+       --detach \
+       --restart=always \
+       --net "host" \
+       --name resolvable \
+       --volume /var/run/docker.sock:/tmp/docker.sock \
+       --volume /etc/resolv.conf:/tmp/resolv.conf \
+       gliderlabs/resolvable:latest"
+
+echo $RESOLVABLE
+eval $RESOLVABLE
+
+# Nomad does currently support volumes so we have to set up the container here
 CONNECTABLE="docker run \
        --detach \
        --restart=always \

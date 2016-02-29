@@ -29,6 +29,19 @@ NOMAD="docker run \
                                         -servers 10.10.10.10 \
                                         -node-class=general-purpose"
 
+# Nomad does currently support volumes so we have to set up the container here
+RESOLVABLE="docker run \
+       --detach \
+       --restart=always \
+       --net "host" \
+       --name resolvable \
+       --volume /var/run/docker.sock:/tmp/docker.sock \
+       --volume /etc/resolv.conf:/tmp/resolv.conf \
+       gliderlabs/resolvable:latest"
+
+echo $RESOLVABLE
+eval $RESOLVABLE
+
 echo $NOMAD
 eval $NOMAD
 
