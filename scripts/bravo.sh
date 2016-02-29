@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO: see how we might do this as a system Nomad job
 CONSUL="docker run \
        --detach \
        --restart=always \
@@ -30,4 +31,16 @@ NOMAD="docker run \
 
 echo $NOMAD
 eval $NOMAD
+
+# Nomad does currently support volumes so we have to set up the container here
+CONNECTABLE="docker run \
+       --detach \
+       --restart=always \
+       --net "host" \
+       --name connectable \
+       --volume /var/run/docker.sock:/var/run/docker.sock \
+       gliderlabs/connectable:latest"
+
+echo $CONNECTABLE
+eval $CONNECTABLE
 

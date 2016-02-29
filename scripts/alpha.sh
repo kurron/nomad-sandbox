@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO: see how we might do this as a system Nomad job
 CONSUL="docker run \
        --detach \
        --restart=always \
