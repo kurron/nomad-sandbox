@@ -6,11 +6,15 @@ CONSUL="docker run \
        --restart=always \
        --net "host" \
        --name consul-client \
+       --volume /etc/consul.d:/etc/consul.d \
        kurron/docker-consul:latest agent -advertise=10.10.10.20 \
                                          -bind=10.10.10.20 \
+                                         -config-dir=/etc/consul.d \
                                          -data-dir=/var/lib/consul \
                                          -dc=vagrant \
-                                         -join=10.10.10.10"
+                                         -recursor=8.8.8.8 \
+                                         -recursor=8.8.4.4 \
+                                         -retry-join =10.10.10.10"
 
 echo $CONSUL
 eval $CONSUL

@@ -6,11 +6,16 @@ CONSUL="docker run \
        --restart=always \
        --net "host" \
        --name consul-server \
+       --volume /etc/consul.d:/etc/consul.d \
        kurron/docker-consul:latest agent -advertise=10.10.10.10 \
                                          -bind=10.10.10.10 \
+                                         -config-dir=/etc/consul.d \
                                          -data-dir=/var/lib/consul \
                                          -dc=vagrant \
+                                         -recursor=8.8.8.8 \
+                                         -recursor=8.8.4.4 \
                                          -server \
+                                         -ui \
                                          -bootstrap-expect=1"
 
 echo $CONSUL
