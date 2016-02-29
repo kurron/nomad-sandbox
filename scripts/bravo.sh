@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p /etc/consul.d
+
 # TODO: see how we might do this as a system Nomad job
 CONSUL="docker run \
        --detach \
