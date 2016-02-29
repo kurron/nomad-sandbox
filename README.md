@@ -17,7 +17,9 @@ the network.
 # Tips and Tricks
 
 ## Machine Topology
-TODO
+* **alpha** - Consul server, Nomad server, Docker Engine
+* **bravo** - Consul client, Nomad client, Docker Engine
+* **charlie** - Consul client, Nomad client, Docker Engine
  
 ## Launching The Sandbox
 
@@ -30,7 +32,7 @@ will be in the `/home/vagrant` directory and need to switch to the `/vagrant` di
 verify that you don't have any currently running jobs use `bin/check-job.sh`.  You should see the message 
 `No running jobs`.  Next we want to install a system service into the Nomad cluster.  Type `bin/submit-job.sh system-test.hcl`  
 to install some caching services into all nodes in the cluster. To see how the deployment is going,
-type `bin/submit-job.sh system-test.hcl` and should show the `system-test` job running.  To shutdown the services,
+type `bin/submit-job.sh system-test.hcl` and it should show the `system-test` job running.  To shutdown the services,
 type `bin/stop-job.sh system-test`.
 
 ## Installing A Service
