@@ -57,7 +57,63 @@ curl http://localhost:8500/v1/catalog/services | python -m json.tool
 }
 ```
  
-To examine an individual service, try this:
+## Service Discovery (Glider Labs)
+**Currently Under Development**
+Since Nomad can move containers around as jobs are scheduled, you need to use a service discovery mechanism to
+locate services that your container depends on. Given the proper configuration, Nomad will register workloads
+with Consul.  It is up to your application to pull the service location out of Consul.  To make this process
+almost painless, we are using [Connectable](https://github.com/gliderlabs/connectable) in conjunction with
+[Resolvable](https://github.com/gliderlabs/resolvable).  The way it works is that you specify a specially
+formatted Docker label in your task definition that tells Connectable how to map the service definition in
+Consul to how you want it mapped inside your container.  As container come and go, Resolvable keeps track of
+the locations and becomes a local DNS provider.
+
+
+```
+config {
+    image = "nginx:latest"
+    network_mode = "host"
+    labels {
+        // this container can access a Redis instance via localhost:6379
+        connect.6379 = "system-test-caching-services-redis.service.consul"
+    }
+}
+```
+
+## Service Discovery (DNS)
+Consul is a DNS server so it is possible to locate services using DNS.  NOTE: in order to obtain the service's
+port, you need to get an `SRV` record and not the typical `A` record.
+
+```
+dig @127.0.0.1 -p 8600 system-test-caching-services-redis.service.consul SRV
+
+; <<>> DiG 9.9.5-3ubuntu0.7-Ubuntu <<>> @127.0.0.1 -p 8600 system-test-caching-services-redis.service.consul SRV
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 22216
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 2
+;; WARNING: recursion requested but not available
+
+;; QUESTION SECTION:
+;system-test-caching-services-redis.service.consul. IN SRV
+
+;; ANSWER SECTION:
+system-test-caching-services-redis.service.consul. 0 IN SRV 1 1 6379 charlie.node.vagrant.consul.
+system-test-caching-services-redis.service.consul. 0 IN SRV 1 1 6379 bravo.node.vagrant.consul.
+
+;; ADDITIONAL SECTION:
+charlie.node.vagrant.consul. 0  IN      A       10.0.2.15
+bravo.node.vagrant.consul. 0    IN      A       10.0.2.15
+
+;; Query time: 1 msec
+;; SERVER: 127.0.0.1#8600(127.0.0.1)
+;; WHEN: Mon Feb 29 20:27:58 UTC 2016
+;; MSG SIZE  rcvd: 341
+```
+
+## Service Discovery (Consul REST API)
+If DNS is too cumbersome to use, you can use HTTP and get the data via REST.
 
 ```
 curl http://localhost:8500/v1/catalog/service/system-test-caching-services-redis | python -m json.tool
@@ -93,28 +149,6 @@ curl http://localhost:8500/v1/catalog/service/system-test-caching-services-redis
         ]
     }
 ]
-```
-
-## Service Discovery
-Since Nomad can move containers around as jobs are scheduled, you need to use a service discovery mechanism to 
-locate services that your container depends on. Given the proper configuration, Nomad will register workloads 
-with Consul.  It is up to your application to pull the service location out of Consul.  To make this process 
-almost painless, we are using [Connectable](https://github.com/gliderlabs/connectable) in conjunction with 
-[Resolvable](https://github.com/gliderlabs/resolvable).  The way it works is that you specify a specially 
-formatted Docker label in your task definition that tells Connectable how to map the service definition in 
-Consul to how you want it mapped inside your container.  As container come and go, Resolvable keeps track of 
-the locations and becomes a local DNS provider. 
-
-
-```
-config {
-    image = "nginx:latest"
-    network_mode = "host"
-    labels {
-        // this container can access a Redis instance via localhost:6379
-        connect.6379 = "system-test-caching-services-redis.service.consul"
-    }
-}
 ```
 
 # Troubleshooting
