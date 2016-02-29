@@ -10,5 +10,5 @@ CMD="docker run \
        --volume /var/run/docker.sock:/var/run/docker.sock \
        kurron/docker-nomad:latest status -verbose  -address=http://10.10.10.10:4646 $*"
 
-echo eval $CMD
+#echo eval $CMD
 eval $CMD
