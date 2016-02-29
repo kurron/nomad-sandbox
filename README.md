@@ -36,6 +36,63 @@ type `bin/stop-job.sh system-test`.
 ## Installing A Service
 Use `bin/submit-job.sh service-test.hcl` to install an Nginx instance on one of the agents in the cluster.
  
+## Service Registration
+Nomad automatically registers workloads in Consul.  You can examine the registrations via HTTP on `alpha`.
+
+```
+curl http://localhost:8500/v1/catalog/services | python -m json.tool
+
+{
+    "consul": [],
+    "service-test-web-services-nginx": [
+        "web",
+        "experiment"
+    ],
+    "system-test-caching-services-redis": [
+        "experiment",
+        "caching"
+    ]
+}
+```
+ 
+To examine an individual service, try this:
+
+```
+curl http://localhost:8500/v1/catalog/service/system-test-caching-services-redis | python -m json.tool
+[
+    {
+        "Address": "10.10.10.20",
+        "CreateIndex": 1097,
+        "ModifyIndex": 1101,
+        "Node": "bravo",
+        "ServiceAddress": "10.0.2.15",
+        "ServiceEnableTagOverride": false,
+        "ServiceID": "nomad-registered-service-b8419ed2-1d7c-da7e-fa48-003b84148b76",
+        "ServiceName": "system-test-caching-services-redis",
+        "ServicePort": 6379,
+        "ServiceTags": [
+            "experiment",
+            "caching"
+        ]
+    },
+    {
+        "Address": "10.10.10.30",
+        "CreateIndex": 1094,
+        "ModifyIndex": 1103,
+        "Node": "charlie",
+        "ServiceAddress": "10.0.2.15",
+        "ServiceEnableTagOverride": false,
+        "ServiceID": "nomad-registered-service-c44fb7b8-be34-72d3-10cf-a3a783a7ef85",
+        "ServiceName": "system-test-caching-services-redis",
+        "ServicePort": 6379,
+        "ServiceTags": [
+            "experiment",
+            "caching"
+        ]
+    }
+]
+```
+
 # Troubleshooting
 
 ## VirtualBox Extension Pack 
