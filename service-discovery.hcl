@@ -34,6 +34,7 @@ job "service-discovery" {
                 image = "nginx:latest"
                 network_mode = "host"
                 labels {
+                    // this container can access a Redis instance via localhost:6379
                     connect.6379 = "system-test-caching-services-redis.service.consul"
                 }
             }
