@@ -34,6 +34,8 @@ job "system-test" {
                 image = "redis:latest"
                 network_mode = "host"
                 host_name = "redis"
+                // use local Consul agent as our DNS server for service discovery
+                dns_servers = ["127.0.0.1"]
             }
 
             service {

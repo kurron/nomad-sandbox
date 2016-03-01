@@ -34,6 +34,8 @@ job "service-test" {
                 image = "nginx:latest"
                 network_mode = "host"
                 host_name = "nginx"
+                // use local Consul agent as our DNS server for service discovery
+                dns_servers = ["127.0.0.1"]
             }
 
             service {

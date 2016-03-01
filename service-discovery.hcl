@@ -33,7 +33,10 @@ job "service-discovery" {
             config {
                 image = "nginx:latest"
                 network_mode = "host"
+                // use local Consul agent as our DNS server for service discovery
+                dns_servers = ["127.0.0.1"]
                 labels {
+                    //TODO: only works if the Glider Labs stuff is running 
                     // this container can access a Redis instance via localhost:6379
                     connect.6379 = "system-test-caching-services-redis.service.consul"
                 }
