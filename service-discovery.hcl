@@ -43,6 +43,7 @@ job "service-discovery" {
             }
 
             service {
+                name = "nginx"
                 tags = ["experiment", "service-discovery"]
                 port = "http"
                 check {

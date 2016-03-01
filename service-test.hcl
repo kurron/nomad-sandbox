@@ -39,6 +39,7 @@ job "service-test" {
             }
 
             service {
+                name = "nginx"
                 tags = ["experiment", "web"]
                 port = "nginx"
                 check {

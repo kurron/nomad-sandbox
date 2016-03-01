@@ -39,6 +39,7 @@ job "system-test" {
             }
 
             service {
+                name = "redis"
                 tags = ["experiment", "caching"]
                 port = "redis"
                 check {
